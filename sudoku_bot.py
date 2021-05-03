@@ -1,33 +1,31 @@
 import numpy as np
 
-grid = [[2, 7, 0, 0, 0, 1, 9, 0, 0],
-        [0, 0, 4, 0, 7, 0, 0, 0, 0],
-        [5, 9, 0, 0, 3, 4, 0, 0, 0],
-        [0, 5, 1, 0, 9, 0, 0, 0, 2],
-        [3, 0, 0, 0, 0, 0, 0, 0, 7],
-        [6, 0, 0, 0, 2, 0, 4, 9, 0],
-        [0, 0, 0, 4, 8, 0, 0, 7, 6],
-        [0, 0, 0, 0, 6, 0, 2, 0, 0],
-        [0, 0, 6, 2, 0, 0, 0, 4, 8]]
+demo_ver = [[2, 7, 0, 0, 0, 1, 9, 0, 0],
+            [0, 0, 4, 0, 7, 0, 0, 0, 0],
+            [5, 9, 0, 0, 3, 4, 0, 0, 0],
+            [0, 5, 1, 0, 9, 0, 0, 0, 2],
+            [3, 0, 0, 0, 0, 0, 0, 0, 7],
+            [6, 0, 0, 0, 2, 0, 4, 9, 0],
+            [0, 0, 0, 4, 8, 0, 0, 7, 6],
+            [0, 0, 0, 0, 6, 0, 2, 0, 0],
+            [0, 0, 6, 2, 0, 0, 0, 4, 8]]
 
-"""
+
 def create_grid():
-    global grid
     nums = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth']
     print("Type one row's numbers in one line or '0' if that tile is empty,\nafter inputting all the tiles, the algorithm will solve\nthe sudoku board you inputted.")
     grid = []
     for row in range(9):
         r = str(input(nums[row] + " row: "))
-        temp_row = [i for i in r]
+        temp_row = [int(i) for i in r]
         grid.append(temp_row)
     print(grid)
     return grid
-"""
+
 #  Creating the main grid which will be solved
 
 
-def available(y, x, number):
-    global grid
+def available(y, x, number, grid):
 
     #  Checking if there is a same number in the same row
     for x_line in range(0, 9):
@@ -56,18 +54,22 @@ being solved and continuously tested throughout the process
 """
 
 
-def solve():
-    global grid
+def solve(grid):
     for y in range(9):
         for x in range(9):
             if grid[y][x] == 0:
                 for number in range(1, 10):
-                    if available(y, x, number, ):
+                    if available(y, x, number, grid):
                         grid[y][x] = number
-                        solve()
+                        solve(grid)
                         grid[y][x] = 0  # If the grid somehow happens to not be available anymore for that number its resetting to 0
                 return
     print(np.matrix(grid))
 
 
-solve()
+demo_custom = input("Enter a custom grid or run the demo version: ")
+
+if demo_custom == "demo":
+    solve(demo_ver)
+elif demo_custom == "custom":
+    solve(create_grid())
